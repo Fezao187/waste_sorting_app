@@ -18,8 +18,10 @@ public class Waste {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    @JsonIgnoreProperties("waste")
     @OneToMany(mappedBy = "waste")
     private List<RecyclingTips> recyclingTips;
+    @JsonIgnoreProperties("waste")
     @OneToMany(mappedBy = "waste")
     private List<DisposalTips> disposalTips;
 

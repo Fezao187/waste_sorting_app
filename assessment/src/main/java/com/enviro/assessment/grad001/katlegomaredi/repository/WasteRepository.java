@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface WasteRepository extends JpaRepository<Waste, Integer> {
     List<Waste> findByCategoryName(String category);
+    Waste findByName(String name);
 }

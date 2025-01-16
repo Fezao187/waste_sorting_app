@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.katlegomaredi.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,6 +9,7 @@ public class RecyclingTips {
     @GeneratedValue
     private Integer id;
     private String tip;
+    @JsonIgnoreProperties("recyclingTips")
     @ManyToOne
     @JoinColumn(name="waste_id")
     private Waste waste;

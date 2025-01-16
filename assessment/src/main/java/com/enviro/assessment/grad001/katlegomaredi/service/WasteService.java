@@ -2,9 +2,11 @@ package com.enviro.assessment.grad001.katlegomaredi.service;
 
 import com.enviro.assessment.grad001.katlegomaredi.excepttion.ApiRequestException;
 import com.enviro.assessment.grad001.katlegomaredi.models.entities.Category;
+import com.enviro.assessment.grad001.katlegomaredi.models.entities.RecyclingTips;
 import com.enviro.assessment.grad001.katlegomaredi.models.entities.Waste;
 import com.enviro.assessment.grad001.katlegomaredi.models.response.Response;
 import com.enviro.assessment.grad001.katlegomaredi.repository.CategoryRepository;
+import com.enviro.assessment.grad001.katlegomaredi.repository.RecyclingTipsRepository;
 import com.enviro.assessment.grad001.katlegomaredi.repository.WasteRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public class WasteService {
     private final WasteRepository wasteRepository;
     private final CategoryRepository categoryRepository;
 
-    public WasteService(WasteRepository wasteRepository, CategoryRepository categoryRepository) {
+    public WasteService(WasteRepository wasteRepository, CategoryRepository categoryRepository, RecyclingTipsRepository recyclingTipsRepository) {
         this.wasteRepository = wasteRepository;
         this.categoryRepository = categoryRepository;
     }
@@ -39,14 +41,17 @@ public class WasteService {
         }
         Waste result = new Waste();
         Category category = categoryRepository.findByName(waste.getCategory().getName());
-
+        if(category == null) {
+            throw new ApiRequestException("Category does not exist, please try again");
+        }
+        RecyclingTips recyclingTips = new RecyclingTips();
         try{
             result.setName(waste.getName());
             result.setCategory(category);
             wasteRepository.save(result);
             return result;
         }catch (Exception e){
-            throw new ApiRequestException(e.getCause().getMessage());
+            throw new ApiRequestException("Cannot save waste");
         }
     }
 
@@ -94,7 +99,8 @@ public class WasteService {
         try{
             result.setName(waste.getName());
             if(waste.getCategory() != null) {
-                result.setCategory(waste.getCategory());
+                Category category = categoryRepository.findByName(waste.getCategory().getName());
+                result.setCategory(category);
             }
             wasteRepository.save(result);
             return result;
