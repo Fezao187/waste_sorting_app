@@ -1,12 +1,25 @@
 package com.enviro.assessment.grad001.katlegomaredi.models;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
 
+@Entity
+@Table(name = "waste")
 public class Waste {
+    @Id
+    @GeneratedValue
     private Integer id;
+    @NotEmpty
     private String name;
+    @NotEmpty
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
+    @OneToMany(mappedBy = "waste")
     private List<RecyclingTips> recyclingTips;
+    @OneToMany(mappedBy = "waste")
     private List<DisposalTips> disposalTips;
 
     public Waste() {

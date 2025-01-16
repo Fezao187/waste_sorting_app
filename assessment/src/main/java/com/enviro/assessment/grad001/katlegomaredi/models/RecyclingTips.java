@@ -1,8 +1,15 @@
 package com.enviro.assessment.grad001.katlegomaredi.models;
 
+import jakarta.persistence.*;
+
+@Entity
 public class RecyclingTips {
+    @Id
+    @GeneratedValue
     private Integer id;
     private String tip;
+    @ManyToOne
+    @JoinColumn(name="waste_id")
     private Waste waste;
 
     public RecyclingTips() {

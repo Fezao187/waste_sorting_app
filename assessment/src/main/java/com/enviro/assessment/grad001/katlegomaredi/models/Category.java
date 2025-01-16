@@ -1,14 +1,27 @@
 package com.enviro.assessment.grad001.katlegomaredi.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
+
+@Entity
 public class Category {
+    @Id
+    @GeneratedValue
     private Integer id;
+    @NotEmpty
     private String name;
-    private Waste waste;
+    @OneToMany(mappedBy = "category")
+    private List<Waste> waste;
 
     public Category() {
     }
 
-    public Category(Integer id, String name, Waste waste) {
+    public Category(Integer id, String name, List<Waste> waste) {
         this.id = id;
         this.name = name;
         this.waste = waste;
@@ -30,11 +43,11 @@ public class Category {
         this.name = name;
     }
 
-    public Waste getWaste() {
+    public List<Waste> getWaste() {
         return waste;
     }
 
-    public void setWaste(Waste waste) {
+    public void setWaste(List<Waste> waste) {
         this.waste = waste;
     }
 }
