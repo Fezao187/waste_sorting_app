@@ -1,9 +1,9 @@
-package com.enviro.assessment.grad001.katlegomaredi.models;
+package com.enviro.assessment.grad001.katlegomaredi.models.entities;
 
 import jakarta.persistence.*;
 
 @Entity
-public class RecyclingTips {
+public class DisposalTips {
     @Id
     @GeneratedValue
     private Integer id;
@@ -12,10 +12,10 @@ public class RecyclingTips {
     @JoinColumn(name="waste_id")
     private Waste waste;
 
-    public RecyclingTips() {
+    public DisposalTips() {
     }
 
-    public RecyclingTips(Integer id, String tip, Waste waste) {
+    public DisposalTips(Integer id, String tip, Waste waste) {
         this.id = id;
         this.tip = tip;
         this.waste = waste;

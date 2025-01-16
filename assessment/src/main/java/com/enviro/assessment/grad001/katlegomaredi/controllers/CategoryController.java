@@ -1,13 +1,14 @@
 package com.enviro.assessment.grad001.katlegomaredi.controllers;
 
-import com.enviro.assessment.grad001.katlegomaredi.excepttion.ApiRequestException;
-import com.enviro.assessment.grad001.katlegomaredi.models.Category;
+import com.enviro.assessment.grad001.katlegomaredi.models.entities.Category;
+import com.enviro.assessment.grad001.katlegomaredi.models.response.Response;
 import com.enviro.assessment.grad001.katlegomaredi.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/category")
@@ -46,7 +47,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Category> deleteCategory(
+    public ResponseEntity<Response> deleteCategory(
             @PathVariable Integer id) {
         return new ResponseEntity<>(categoryService.deleteCategory(id), HttpStatus.OK);
     }

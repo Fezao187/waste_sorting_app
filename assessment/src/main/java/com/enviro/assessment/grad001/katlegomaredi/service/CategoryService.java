@@ -1,21 +1,20 @@
 package com.enviro.assessment.grad001.katlegomaredi.service;
 
 import com.enviro.assessment.grad001.katlegomaredi.excepttion.ApiRequestException;
-import com.enviro.assessment.grad001.katlegomaredi.models.Category;
+import com.enviro.assessment.grad001.katlegomaredi.models.entities.Category;
+import com.enviro.assessment.grad001.katlegomaredi.models.response.Response;
 import com.enviro.assessment.grad001.katlegomaredi.repository.CategoryRepository;
-import com.enviro.assessment.grad001.katlegomaredi.repository.WasteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    private final WasteRepository wasteRepository;
 
-    public CategoryService(CategoryRepository categoryRepository, WasteRepository wasteRepository) {
+    public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.wasteRepository = wasteRepository;
     }
 
     public List<Category> findAll() {
@@ -32,7 +31,7 @@ public class CategoryService {
             throw new ApiRequestException("Category name cannot be empty");
         }
         Category existingCategory = categoryRepository.findByName(category.getName());
-        if (existingCategory != null) {
+        if (existingCategory!=null) {
             throw new ApiRequestException("Category already exists");
         }
         try {
@@ -93,22 +92,19 @@ public class CategoryService {
         }
     }
 
-    public Category deleteCategory(Integer id) {
+    public Response deleteCategory(Integer id) {
         if (id == null) {
             throw new ApiRequestException("Category id cannot be null");
         }
-        Category dbCategory = categoryRepository.findById(id).get();
-        Category deletedCategory = dbCategory;
-        if (dbCategory == null) {
+        Optional<Category> dbCategory = categoryRepository.findById(id);
+        if (!dbCategory.isPresent()) {
             throw new ApiRequestException("Category does not exist, make sure that the category id is correct");
         }
         try {
-             categoryRepository.delete(dbCategory);
-            return deletedCategory;
+            categoryRepository.deleteById(id);
+            return new Response( "Category deleted successfully");
         } catch (Exception e) {
             throw new ApiRequestException("Cannot delete category");
         }
-
-
     }
 }

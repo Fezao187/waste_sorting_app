@@ -1,5 +1,6 @@
-package com.enviro.assessment.grad001.katlegomaredi.models;
+package com.enviro.assessment.grad001.katlegomaredi.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -13,7 +14,7 @@ public class Waste {
     private Integer id;
     @NotEmpty
     private String name;
-    @NotEmpty
+    @JsonIgnoreProperties("waste")
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

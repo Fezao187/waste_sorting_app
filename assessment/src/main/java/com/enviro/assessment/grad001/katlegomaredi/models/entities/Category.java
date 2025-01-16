@@ -1,5 +1,6 @@
-package com.enviro.assessment.grad001.katlegomaredi.models;
+package com.enviro.assessment.grad001.katlegomaredi.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -12,6 +13,7 @@ public class Category {
     private Integer id;
     @NotEmpty
     private String name;
+    @JsonIgnoreProperties("category")
     @OneToMany(mappedBy = "category")
     private List<Waste> waste;
 
